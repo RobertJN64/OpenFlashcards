@@ -7,8 +7,8 @@ import os
 stopflag = False
 prog_pos = 35
 
-MODE_TERM = True #answer with term
-MODE_DEF = False #answer with def
+MODE_DEF = True #answer with def
+MODE_TERM = False #answer with term
 
 mode = MODE_DEF
 
@@ -49,7 +49,11 @@ def load_cards(name):
 
     b_chars = []
     for key, value in cards.items():
-        for char in key + value:
+        if mode == MODE_DEF:
+            word = key
+        else:
+            word = value
+        for char in word:
             if char not in normal_chars and char not in b_chars:
                 b_chars.append(char)
 
@@ -167,11 +171,11 @@ def p_done():
     print("|                                         |")
     print("|                  Done!                  |")
     print("|                                         |")
-    print("|                                         |")
     print("+-----------------------------------------+")
 
 
 def study(cards, progress, bchars):
+    missed_words = []
     while True:
         mc_list = []
         for key, value in progress.items():
@@ -193,6 +197,8 @@ def study(cards, progress, bchars):
                     break
                 p_incorrect(cards[term])
                 progress[term]["missed"] = True
+                if term + ' / ' + cards[term] not in missed_words:
+                    missed_words.append(term + ' / ' + cards[term])
 
         else:
             or_list = []
@@ -215,10 +221,13 @@ def study(cards, progress, bchars):
                         break
                     p_incorrect(cards[term])
                     progress[term]["missed"] = True
+                    if term + ' / ' + cards[term] not in missed_words:
+                        missed_words.append(term + ' / ' + cards[term])
 
             else:
                 p_done()
                 break
+    return missed_words
 
 def print_banner():
     print()
@@ -237,11 +246,12 @@ def main():
     cards_name = choose_set()
     if cards_name:
         if input("Answer with (term / def): ").lower() == "term":
-            mode = MODE_TERM
+            mode = MODE_TERM #reversed
         cards, bchars = load_cards(cards_name)
         progress = load_progress(cards_name, cards)
         print_banner()
-        study(cards, progress, bchars)
+        missed_words = study(cards, progress, bchars)
+        print("Your missed words: ", ', '.join(missed_words))
         if input("Save progress (y / n): ").lower()[0] == "y":
             with open('sets/' + cards_name + '.progress', 'w+', encoding="utf-8") as f:
                 json.dump(progress, f, indent=4)
