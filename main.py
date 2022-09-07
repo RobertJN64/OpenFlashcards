@@ -5,6 +5,7 @@ import math
 import os
 
 stopflag = False
+prog_pos = 30
 
 MODE_NORMAL = True #answer with term
 MODE_INVERTED = False #answer with def
@@ -33,7 +34,7 @@ def choose_set():
 
 def load_cards(name):
     cards = {}
-    with open('sets/' + name + '.cards') as f:
+    with open('sets/' + name + '.cards', encoding="utf-8") as f:
         lines = f.readlines()
 
     for line in lines:
@@ -77,7 +78,7 @@ def load_progress(cards_name, cards):
 
     return progress
 
-def ask_mc(term, cards):
+def ask_mc(term, cards, progress):
     global stopflag
     answers = [cards[term]]
     for i in range(0, 3):
@@ -90,7 +91,7 @@ def ask_mc(term, cards):
 
     print()
     print()
-    print("  " + term)
+    print("  " + term + " " * (prog_pos - len(term)) + str(round(progress * 100, 2)) + '%')
     print()
     a1 = '1: ' + answers[0]
     a2 = '2: ' + answers[1]
@@ -112,11 +113,11 @@ def ask_mc(term, cards):
             return False
     return answers[int(resp) - 1] == cards[term]
 
-def ask_or(term, cards, bchars):
+def ask_or(term, cards, bchars, progress):
     global stopflag
     print()
     print()
-    print("  " + term)
+    print("  " + term + " " * (prog_pos - len(term)) + str(round(progress * 100, 2)) + '%')
     print()
     print()
     print()
@@ -179,7 +180,7 @@ def study(cards, progress, bchars):
 
         if len(mc_list) > 0:
             term = random.choice(mc_list)
-            if ask_mc(term, cards):
+            if ask_mc(term, cards, 1 - len(mc_list)/len(progress)):
                 if stopflag:
                     break
                 p_correct()
@@ -201,7 +202,7 @@ def study(cards, progress, bchars):
 
             if len(or_list) > 0:
                 term = random.choice(or_list)
-                if ask_or(term, cards, bchars):
+                if ask_or(term, cards, bchars, 1 - len(or_list)/len(progress)):
                     p_correct()
                     if stopflag:
                         break
@@ -239,7 +240,7 @@ def main():
         print_banner()
         study(cards, progress, bchars)
         if input("Save progress (y / n): ").lower()[0] == "y":
-            with open('sets/' + cards_name + '.progress', 'w+') as f:
+            with open('sets/' + cards_name + '.progress', 'w+', encoding="utf-8") as f:
                 json.dump(progress, f, indent=4)
 
 if __name__ == '__main__':

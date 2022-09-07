@@ -3,6 +3,8 @@
 The free alternative to certain studying apps that demand
 payment for basic features.
 
+![image](demo.png)
+
 ## Features
  - No GUI
  - Import from your favorite flashcards apps
