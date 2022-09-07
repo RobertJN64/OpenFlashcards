@@ -5,12 +5,12 @@ import math
 import os
 
 stopflag = False
-prog_pos = 30
+prog_pos = 35
 
-MODE_NORMAL = True #answer with term
-MODE_INVERTED = False #answer with def
+MODE_TERM = True #answer with term
+MODE_DEF = False #answer with def
 
-mode = MODE_NORMAL
+mode = MODE_DEF
 
 normal_chars = [chr(x) for x in range(ord("A"), ord("A") + 26)]
 normal_chars += [chr(x) for x in range(ord("a"), ord("a") + 26)]
@@ -50,7 +50,7 @@ def load_cards(name):
     b_chars = []
     for key, value in cards.items():
         for char in key + value:
-            if char not in normal_chars:
+            if char not in normal_chars and char not in b_chars:
                 b_chars.append(char)
 
     return cards, b_chars
@@ -233,8 +233,11 @@ def print_banner():
     input()
 
 def main():
+    global mode
     cards_name = choose_set()
     if cards_name:
+        if input("Answer with (term / def): ").lower() == "term":
+            mode = MODE_TERM
         cards, bchars = load_cards(cards_name)
         progress = load_progress(cards_name, cards)
         print_banner()
