@@ -57,7 +57,7 @@ def load_cards(name):
             if char not in normal_chars and char not in b_chars:
                 b_chars.append(char)
 
-    return cards, b_chars
+    return cards, sorted(b_chars)
 
 def load_progress(cards_name, cards):
     progress = {}
