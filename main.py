@@ -115,7 +115,7 @@ def ask_mc(term, cards, progress):
         if resp == 'stop':
             stopflag = True
             return False
-    return answers[int(resp) - 1] == cards[term]
+    return answers[int(resp) - 1].lower() == cards[term].lower()
 
 def ask_or(term, cards, bchars, progress):
     global stopflag
