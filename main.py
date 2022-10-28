@@ -50,9 +50,9 @@ def load_cards(name):
     b_chars = []
     for key, value in cards.items():
         if mode == MODE_DEF:
-            word = key
-        else:
             word = value
+        else:
+            word = key
         for char in word:
             if char not in normal_chars and char not in b_chars:
                 b_chars.append(char)
@@ -121,7 +121,7 @@ def ask_or(term, cards, bchars, progress):
     global stopflag
     print()
     print()
-    print("  " + term + " " * (prog_pos - len(term)) + str(round(progress * 100, 2)) + '%')
+    print("  " + term + " " * (prog_pos - len(term)) + " " + str(round(progress * 100, 2)) + '%')
     print()
     print()
     print()
@@ -246,7 +246,7 @@ def main():
     cards_name = choose_set()
     if cards_name:
         if input("Answer with (term / def): ").lower() == "term":
-            mode = MODE_TERM #reversed
+            mode = MODE_TERM
         cards, bchars = load_cards(cards_name)
         progress = load_progress(cards_name, cards)
         print_banner()
