@@ -91,7 +91,7 @@ def ask_mc(term, cards, progress):
 
     print()
     print()
-    print("  " + term + " " * (prog_pos - len(term)) + str(round(progress * 100, 2)) + '%')
+    print("  " + term + " " * (prog_pos - len(term)) + " " + str(round(progress * 100, 2)) + '%')
     print()
     a1 = '1: ' + answers[0]
     a2 = '2: ' + answers[1]
