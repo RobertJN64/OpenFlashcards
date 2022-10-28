@@ -48,11 +48,7 @@ def load_cards(name):
             cards[definition] = term
 
     b_chars = []
-    for key, value in cards.items():
-        if mode == MODE_DEF:
-            word = value
-        else:
-            word = key
+    for word in cards.values():
         for char in word:
             if char not in normal_chars and char not in b_chars:
                 b_chars.append(char)
