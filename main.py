@@ -14,7 +14,7 @@ mode = MODE_DEF
 
 normal_chars = [chr(x) for x in range(ord("A"), ord("A") + 26)]
 normal_chars += [chr(x) for x in range(ord("a"), ord("a") + 26)]
-normal_chars += [str(x) for x in range(0, 9)]
+normal_chars += [str(x) for x in range(0, 10)]
 normal_chars += ' '
 
 def choose_set():

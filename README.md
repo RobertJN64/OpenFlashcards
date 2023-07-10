@@ -12,4 +12,4 @@ payment for basic features.
 
 ## Import
 
-Defintions and words should be separated by ` | `
+Definitions and words should be separated by ` | `
